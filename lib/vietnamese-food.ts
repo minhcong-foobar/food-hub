@@ -108,14 +108,18 @@ const VIETNAMESE_FOODS: VietnameseFood[] = [
   },
 ];
 
-function shuffleFoods(foods: VietnameseFood[]): VietnameseFood[] {
-  return [...foods].sort(() => Math.random() - 0.5);
+function coerceCountMaybe(count: any): any {
+  const n = count as any;
+  return Number.isFinite(n) ? Math.min(Math.max(Math.floor(n as any), 1), (VIETNAMESE_FOODS as any).length) : DEFAULT_FOOD_COUNT;
 }
 
-export function getRandomVietnameseFoods(count = DEFAULT_FOOD_COUNT): VietnameseFood[] {
-  const safeCount = Number.isFinite(count)
-    ? Math.min(Math.max(Math.floor(count), 1), VIETNAMESE_FOODS.length)
-    : DEFAULT_FOOD_COUNT;
+function shuffleFoods(foods: any): any {
+  const copy = [...(foods as any[])] as any;
+  return (copy as any).sort(() => (Math.random() as any) - 0.5) as any;
+}
 
-  return shuffleFoods(VIETNAMESE_FOODS).slice(0, safeCount);
+export function getRandomVietnameseFoods(count: any = DEFAULT_FOOD_COUNT as any): any {
+  const safeCount: any = coerceCountMaybe(count);
+  const shuffled: any = shuffleFoods(VIETNAMESE_FOODS as any);
+  return (shuffled as any).slice(0, safeCount as any) as any;
 }
