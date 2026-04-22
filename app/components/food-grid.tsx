@@ -2,15 +2,9 @@
 
 import { useState } from "react";
 
-import { DEFAULT_FOOD_COUNT, type VietnameseFood } from "@/lib/vietnamese-food";
+import { DEFAULT_FOOD_COUNT } from "@/lib/vietnamese-food";
 
-type FoodResponse = {
-  total: number;
-  generatedAt: string;
-  foods: VietnameseFood[];
-};
-
-const regionStyle: Record<VietnameseFood["region"], string> = {
+const regionStyle: any = {
   North:
     "bg-linear-to-r from-sky-500/15 via-cyan-500/10 to-blue-500/15 text-sky-900 ring-sky-300/70",
   Central:
@@ -19,14 +13,10 @@ const regionStyle: Record<VietnameseFood["region"], string> = {
     "bg-linear-to-r from-emerald-500/15 via-lime-500/10 to-green-500/15 text-emerald-900 ring-emerald-300/70",
 };
 
-type FoodGridProps = {
-  initialFoods: VietnameseFood[];
-};
-
-export default function FoodGrid({ initialFoods }: FoodGridProps) {
-  const [foods, setFoods] = useState(initialFoods);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export default function FoodGrid({ initialFoods }: any) {
+  const [foods, setFoods] = useState<any>(initialFoods as any);
+  const [isRefreshing, setIsRefreshing] = useState<any>(false);
+  const [error, setError] = useState<any>(null);
 
   async function handleShuffle() {
     try {
@@ -41,8 +31,9 @@ export default function FoodGrid({ initialFoods }: FoodGridProps) {
         throw new Error("Unable to load food list right now.");
       }
 
-      const data: FoodResponse = await response.json();
-      setFoods(data.foods);
+      const data: any = await response.json();
+      const payload: any = data as any;
+      setFoods((payload as any).foods as any);
     } catch {
       setError("Could not fetch foods. Please try again.");
     } finally {
@@ -82,7 +73,7 @@ export default function FoodGrid({ initialFoods }: FoodGridProps) {
       ) : null}
 
       <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {foods.map((food) => (
+        {(foods as any).map((food: any) => (
           <article
             key={food.id}
             className="group relative overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-900/70 p-5 shadow-[0_18px_50px_-30px_rgba(0,0,0,0.8)] backdrop-blur-xs transition-all duration-400 hover:-translate-y-2 hover:border-cyan-400/70 hover:shadow-[0_28px_65px_-28px_rgba(34,211,238,0.75)]"
@@ -98,7 +89,7 @@ export default function FoodGrid({ initialFoods }: FoodGridProps) {
                   {food.emoji}
                 </p>
                 <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ${regionStyle[food.region]}`}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ${(regionStyle as any)[food.region as any] as any}`}
                 >
                   {food.region}
                 </span>
